@@ -1,6 +1,9 @@
 # THE ESSENSE OF THIS PROGRAM is to help users learn or improve on their German THROUGH German texts.
 FIND a German text on the Internet (Magazine, Newspaper, or other source). COPY a piece of the text that you find interesting and PASTE it in the 'Study Text Box' of the interface, Click the green button SAVE-TXT, and select the place on your computer to save the text. If you named the file, for example as, 'sports' the name of this .txt file will automatically be renamed as 'sports_TXT.txt'. Click on the pinkish button 'AI-create VOC from _TXT file' and select 'sports_TXT.txt'. The program will list the most important words of this file in the 'Vocabulary' above the 'Study Text Box'. This is your vocabulary. Save it by clicking 'SAVE-VOC' and name the file 'sports' which will automatically be renamed as 'sports_VOC.txt'. To translate the original file, click 'Translate file' to select the file of your choice (which has the suffix of *_TXT.txt), and the file will be translated and be displayed in the 'Translation Box'. In keeping with the previous example-file, the translation will be saved as 'sports_TRA.txt'.
 
+I often use the following source: Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) at:
+https://www.giz.de/de/html/index.html
+
 A detailed MANUAL will be provided soon.
 
 This program 'deutch_learn.py', has been design to facilitate users learn German, but with some minor adaptations it can be used to facilitate users in learning other languages.
