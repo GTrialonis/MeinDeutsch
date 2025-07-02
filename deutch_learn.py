@@ -85,8 +85,8 @@ class VocabularyApp:
         # Define a custom style for a purple button
         self.style.theme_use('default') # Ensure a base theme is used
         self.style.configure('Purple.TButton',
-                            background='#9b14cc', # Your desired background color
-                            foreground='white',   # Your desired text color
+                            background="#ca74ea", # Your desired background color
+                            foreground='black',   # Your desired text color
                             font=self.left_section_font) # Use your defined font object
         # Define a custom style for a red button
         self.style.configure('Red.TButton',
@@ -96,7 +96,7 @@ class VocabularyApp:
         # Define a custom style for a green button
         self.style.configure('Green.TButton',
                             background='#008844', # Your desired background color
-                            foreground='white',   # Your desired text color
+                            foreground='black',   # Your desired text color
                             font=self.left_section_font) # Use your defined font object
         # ... you'll need to define similar styles for all your button colors
 
@@ -107,23 +107,23 @@ class VocabularyApp:
 
         # Define styles for all your button colors
         self.style.configure('DarkPurple.TButton',
-                            background='#590b75',
-                            foreground='white',
+                            background='#ca74ea',
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('Blue.TButton',
-                            background='#336699',
-                            foreground='white',
+                            background="#73A2D0",
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('Green.TButton',
                             background='#008844',
-                            foreground='white',
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('Red.TButton',
                             background='#AA0000',
-                            foreground='white',
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('GoldBrown.TButton', # For SORT, NOTES, Flip Sentences
@@ -143,22 +143,22 @@ class VocabularyApp:
 
         self.style.configure('DarkBlue.TButton', # For Next Word
                             background='#005588',
-                            foreground='white',
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('GrayBlue.TButton', # For Langenscheidt
-                            background='#446688',
-                            foreground='white',
+                            background="#9DC1E4",
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('DarkOlive.TButton', # For Search OWN vocab.
-                            background='#4D5F0A',
-                            foreground='white',
+                            background="#95C068",
+                            foreground='black',
                             font=self.left_section_font)
 
         self.style.configure('OliveGreen.TButton', # For Glosbe Examples
                             background='#95946A',
-                            foreground='white',
+                            foreground='black',
                             font=self.left_section_font)
 
 
@@ -738,6 +738,48 @@ class VocabularyApp:
             # Show success message with file path
             messagebox.showinfo("Success", f"File saved successfully at:\n{filename}")
 
+    def save_study_text(self):
+        if not self.current_study_file:  # If no file was loaded, ask where to save
+            filename = filedialog.asksaveasfilename(
+                defaultextension=".txt",
+                filetypes=[("Text files", "*.txt")]
+            )
+            if filename:
+                nwext = os.path.splitext(filename)[0] # nwext = name without extension (here '_TXT)
+                if '_TXT' not in filename:
+                    filename = nwext + '_TXT.txt'
+                self.current_study_file = filename  # Update current file for future saves
+        else:
+            filename = self.current_study_file  # Use the stored filename
+
+        if filename:
+            with open(filename, 'w', encoding='utf-8-sig') as file:
+                content = self.study_textbox.get(1.0, tk.END)
+                file.write(content)
+            # Show success message with file path
+            messagebox.showinfo("Success", f"File saved successfully at:\n{filename}")
+
+    def save_translation(self):
+        if not self.current_translated_file:  # If no file was loaded, ask where to save
+            filename = filedialog.asksaveasfilename(
+                defaultextension=".txt",
+                filetypes=[("Text files", "*.txt")]
+            )
+            if filename:
+                nwext = os.path.splitext(filename)[0] # nwext = name without extension (here '_TRA)
+                if '_TRA' not in filename:
+                    filename = nwext + '_TRA.txt'
+                self.current_translated_file = filename  # Update current file for future saves
+        else:
+            filename = self.current_translated_file  # Use the stored filename
+
+        if filename:
+            with open(filename, 'w', encoding='utf-8-sig') as file:
+                content = self.translation_textbox.get(1.0, tk.END)
+                file.write(content)
+            # Show success message with file path
+            messagebox.showinfo("Success", f"File saved successfully at:\n{filename}")
+
     def sort_vocabulary(self):
         content = self.vocabulary_textbox.get(1.0, tk.END)
         sorted_content = ''.join(sorted(content.splitlines(True)))
@@ -755,24 +797,6 @@ class VocabularyApp:
             with open(filename, 'r', encoding='utf-8-sig') as file:
                 content = file.read()
                 self.study_textbox.insert(tk.END, content)
-
-    def save_study_text(self):
-        if not self.current_study_file:  # If no file was loaded, ask where to save
-            filename = filedialog.asksaveasfilename(
-                defaultextension=".txt",
-                filetypes=[("Text files", "*.txt")]
-            )
-            if filename:
-                self.current_study_file = filename  # Update current file for future saves
-        else:
-            filename = self.current_study_file  # Use the stored filename
-
-        if filename:
-            with open(filename, 'w', encoding='utf-8-sig') as file:
-                content = self.study_textbox.get(1.0, tk.END)
-                file.write(content)
-            # Show success message with file path
-            messagebox.showinfo("Success", f"File saved successfully at:\n{filename}")
 
 
     def clear_study_text(self):
@@ -814,24 +838,6 @@ class VocabularyApp:
             with open(filename, 'r', encoding='utf-8-sig') as file:
                 content = file.read()
                 self.translation_textbox.insert(tk.END, content)
-
-    def save_translation(self):
-        if not self.current_translated_file:  # If no file was loaded, ask where to save
-            filename = filedialog.asksaveasfilename(
-                defaultextension=".txt",
-                filetypes=[("Text files", "*.txt")]
-            )
-            if filename:
-                self.current_translated_file = filename  # Update current file for future saves
-        else:
-            filename = self.current_translated_file  # Use the stored filename
-
-        if filename:
-            with open(filename, 'w', encoding='utf-8-sig') as file:
-                content = self.translation_textbox.get(1.0, tk.END)
-                file.write(content)
-            # Show success message with file path
-            messagebox.showinfo("Success", f"File saved successfully at:\n{filename}")
 
 
     def clear_translation(self):
