@@ -1,3 +1,8 @@
+# THE ESSENSE OF THIS PROGRAM is to help users learn or improve on their German THROUGH German texts.
+FIND a German text on the Internet (Magazine, Newspaper, or other source). COPY a piece of the text that you find interesting and PASTE it in the 'Study Text Box' of the interface, Click the green button SAVE-TXT, and select the place on your computer to save the text. If you named the file, for example as, 'sports' the name of this .txt file will automatically be renamed as 'sports_TXT.txt'. Click on the pinkish button 'AI-create VOC from _TXT file' and select 'sports_TXT.txt'. The program will list the most important words of this file in the 'Vocabulary' above the 'Study Text Box'. This is your vocabulary. Save it by clicking 'SAVE-VOC' and name the file 'sports' which will automatically be renamed as 'sports_VOC.txt'. To translate the original file, clich 'Translate file' to select the file of your interest (which has a suffix of *_TXT.txt), and the file will be translated and be displayed in the 'Translation Box'.
+
+A detailed MANUAL will be provided soon.
+
 This program 'deutch_learn.py', has been design to facilitate users learn German, but with some minor adaptations it can be used to facilitate users in learning other languages.
 To use the Artificial Intelligence buttons in this program, users must have an API key from OpenAI (ChatGPT)
 This program is an adaptation of 'Deutch_Trainer-copy2.py', in "German-Learning" repository, which makes use of the Gemini API and runs on Windows.
