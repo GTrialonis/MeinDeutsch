@@ -1,0 +1,9 @@
+# Virtual environment
+deutchlearn/
+
+# Environment variables (Crucial!)
+.env
+
+# Python build artifacts
+__pycache__/
+*.pyc
