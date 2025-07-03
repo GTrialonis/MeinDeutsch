@@ -519,7 +519,7 @@ class VocabularyApp:
 
     def create_middle_section(self):
         middle_frame = tk.Frame(self.root, bg="#222")
-        middle_frame.pack(side=tk.LEFT, fill=tk.Y, padx=5, pady=30) # Changed padx from 10 to 5
+        middle_frame.pack(side=tk.LEFT, fill=tk.Y, padx=5, pady=20) # Changed padx from 10 to 5, and pady to 20 from 30
         
     # --- Group 1: Vocabulary Buttons ---
     # Create a frame for the Vocabulary buttons
