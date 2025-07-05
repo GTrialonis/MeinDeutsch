@@ -171,6 +171,16 @@ class VocabularyApp:
 
         # Right Side - Example Sentences, Test Section, Dictionary Search
         self.create_right_section()
+    
+    # --- REFOCUS THE CURSON INSIDE THE TEST INPUT ---
+    def trigger_next_word_and_refocus(self, event=None):
+        """
+        Triggers the next word action and ensures focus remains in the answer_entry.
+        """
+        self.next_word()
+        self.answer_entry.focus_set()
+        self.answer_entry.delete(0, tk.END) # Optional: Clear the entry
+        return "break"
 
     def ask_chatgpt(self, prompt: str, model_name="gpt-4o", temperature=0.7) -> str:
         resp = self.client.chat.completions.create(
@@ -607,14 +617,17 @@ class VocabularyApp:
         self.test_filename_label = tk.Label(test_frame, text="File is:", fg="white", bg="#222")
         self.test_filename_label.pack(anchor='w')
 
-        self.test_textbox = scrolledtext.ScrolledText(test_frame, height=6, wrap=tk.WORD, bg="#333", fg="white", font=("Helvetica", 13))
+        self.test_textbox = scrolledtext.ScrolledText(test_frame, height=6, wrap=tk.WORD, bg="#333", fg="white", font=("Helvetica", 14))
         self.test_textbox.pack(fill=tk.X)
 
         # Answer Input
-        tk.Label(right_frame, text="Type your answer below and then PRESS the ENTER key", fg="gold", bg="#222").pack(anchor='w')
-        self.answer_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 13))
+        tk.Label(right_frame, text="Type your answer below and then press the ENTER key", fg="gold", bg="#222").pack(anchor='w')
+        tk.Label(right_frame, text="For the 'Next Word' hold down SHIFT and press the ENTER key", fg="cyan", bg="#222").pack(anchor='w')
+        self.answer_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 14))
         self.answer_entry.pack(fill=tk.X)
         self.answer_entry.bind("<Return>", self.check_answer)
+        self.answer_entry.bind("<Shift-Return>", self.trigger_next_word_and_refocus) # debuging / refocus entry input
+        
 
         answer_frame = tk.Frame(right_frame, bg="#222")
         answer_frame.pack(fill=tk.X)
@@ -629,7 +642,7 @@ class VocabularyApp:
 
         # Dictionary Search
         tk.Label(right_frame, text="Search word using AI or Langenscheid online dictionary", fg="gold", bg="#222").pack(anchor='w', pady=5)
-        self.dictionary_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 13))
+        self.dictionary_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 14))
         self.dictionary_entry.pack(fill=tk.X)
 
         dict_btn_frame = tk.Frame(right_frame, bg="#222")
