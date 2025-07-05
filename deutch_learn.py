@@ -519,7 +519,7 @@ class VocabularyApp:
 
     def create_middle_section(self):
         middle_frame = tk.Frame(self.root, bg="#222")
-        middle_frame.pack(side=tk.LEFT, fill=tk.Y, padx=5, pady=20) # Changed padx from 10 to 5, and pady to 20 from 30
+        middle_frame.pack(side=tk.LEFT, fill=tk.Y, padx=5, pady=18) # Changed padx from 10 to 5, and pady to 20 from 30
         
     # --- Group 1: Vocabulary Buttons ---
     # Create a frame for the Vocabulary buttons
@@ -580,7 +580,7 @@ class VocabularyApp:
         self.example_sentences_textbox = self.create_labeled_textbox(right_frame, "Find example sentences using the AI, the Glosbe dictionary, also Load and Append examples", True, height=8)
 
         # New Input Box for Glosbe Search
-        self.glosbe_search_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 11))
+        self.glosbe_search_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 13))
         self.glosbe_search_entry.pack(fill=tk.X, padx=10, pady=5)
 
         # Buttons for Example Sentences
@@ -607,12 +607,12 @@ class VocabularyApp:
         self.test_filename_label = tk.Label(test_frame, text="File is:", fg="white", bg="#222")
         self.test_filename_label.pack(anchor='w')
 
-        self.test_textbox = scrolledtext.ScrolledText(test_frame, height=6, wrap=tk.WORD, bg="#333", fg="white", font=("Helvetica", 11))
+        self.test_textbox = scrolledtext.ScrolledText(test_frame, height=6, wrap=tk.WORD, bg="#333", fg="white", font=("Helvetica", 13))
         self.test_textbox.pack(fill=tk.X)
 
         # Answer Input
         tk.Label(right_frame, text="Type your answer below and then PRESS the ENTER key", fg="gold", bg="#222").pack(anchor='w')
-        self.answer_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 11))
+        self.answer_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 13))
         self.answer_entry.pack(fill=tk.X)
         self.answer_entry.bind("<Return>", self.check_answer)
 
@@ -629,7 +629,7 @@ class VocabularyApp:
 
         # Dictionary Search
         tk.Label(right_frame, text="Search word using AI or Langenscheid online dictionary", fg="gold", bg="#222").pack(anchor='w', pady=5)
-        self.dictionary_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 11))
+        self.dictionary_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 13))
         self.dictionary_entry.pack(fill=tk.X)
 
         dict_btn_frame = tk.Frame(right_frame, bg="#222")
