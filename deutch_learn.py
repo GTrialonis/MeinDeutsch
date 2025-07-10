@@ -49,7 +49,7 @@ class VocabularyApp:
         self.root.configure(bg="#222")
 
         # Maximize the window (keeps Windows taskbar visible)
-        self.root.state('zoomed')  # <- Works well on Windows
+        self.root.state('zoomed')
 
         # --- ADD THESE TWO LINES ---
         self.root.update_idletasks() # Ensures the window is rendered before querying its geometry
