@@ -630,7 +630,7 @@ class VocabularyApp:
         self.test_textbox.pack(fill=tk.X)
 
         # Answer Input
-        tk.Label(right_frame, text="Type your answer below and then press the ENTER key", fg="gold", bg="#222").pack(anchor='w')
+        tk.Label(right_frame, text="Type your answer below and then press the ENTER key. Add 'to' before the English verbs.", fg="gold", bg="#222").pack(anchor='w')
         tk.Label(right_frame, text="For the 'Next Word' hold down SHIFT and press the ENTER key", fg="cyan", bg="#222").pack(anchor='w')
         self.answer_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 14))
         self.answer_entry.pack(fill=tk.X)
@@ -1164,7 +1164,7 @@ class NotesEditor:
         btn_frame.pack(pady=5)
 
         # Buttons
-        tk.Button(btn_frame, text="Open Default File", command=self.open_default_file).pack(side=tk.LEFT, padx=5)
+        tk.Button(btn_frame, text="Open File", command=self.open_default_file).pack(side=tk.LEFT, padx=5)
         tk.Button(btn_frame, text="Save", command=self.save_file).pack(side=tk.LEFT, padx=5)
         tk.Button(btn_frame, text="Exit", command=self.window.destroy).pack(side=tk.LEFT, padx=5)
 
@@ -1172,8 +1172,8 @@ class NotesEditor:
         self.filepath = None
 
     def open_default_file(self):
-        filename = notes_filename
-        #filename = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        # filename = notes_filename
+        filename = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         self.current_notes_file = filename  # Save the loaded filename
         if filename:
             with open(filename, 'r', encoding='utf-8-sig') as file:
