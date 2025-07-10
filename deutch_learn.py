@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Default notes file:
-notes_filename = r'C:\Users\George\Desktop\German-files\notes-default.txt'
+# notes_filename = r'C:\Users\George\Desktop\German-files\notes-default.txt'
 
 # Access the key using os.getenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -1152,7 +1152,7 @@ class NotesEditor:
         self.parent = parent
         self.window = tk.Toplevel(parent)
         self.window.title("Notes Editor")
-        self.window.geometry("500x400")
+        self.window.geometry("600x400")
         self.current_notes_file = None # debug
 
         # Text area
