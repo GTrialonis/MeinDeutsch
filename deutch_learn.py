@@ -78,6 +78,7 @@ class VocabularyApp:
         self.left_section_font = tkFont.Font(family="Helvetica", size=13, weight="normal")
         self.conversation_history = []
         self.divert = 0
+        self.load_current_voc = 0
         
         # MANUAL CONFIGURATION OF COLOR BUTTONS
         # ... inside __init__ method ...
@@ -507,7 +508,7 @@ class VocabularyApp:
         left_frame.pack(side=tk.LEFT, fill=tk.Y) # Changed fill from tk.BOTH to tk.Y
         #left_frame.pack(side=tk.LEFT, fill=tk.BOTH)
 
-        self.vocabulary_textbox = self.create_labeled_textbox(left_frame, "Vocabulary:", True, height=9, label_font=font)
+        self.vocabulary_textbox = self.create_labeled_textbox(left_frame, "Vocabulary (Current):", True, height=9, label_font=font)
         self.study_textbox = self.create_labeled_textbox(left_frame, "Study Text Box:", True, height=9, label_font=font)
         self.translation_textbox = self.create_labeled_textbox(left_frame, "Translation Box:", True, height=9, label_font=font)
         self.input_textbox = self.create_labeled_textbox(left_frame, "Prompt the AI by writing below", True, height=4, label_font=font)
@@ -615,11 +616,11 @@ class VocabularyApp:
         # Vocabulary Test Section
         test_frame = tk.Frame(right_frame, bg="#222")
         test_frame.pack(fill=tk.X, pady=10)
-        tk.Label(test_frame, text="Take a Vocabulary Test from File:", fg="gold", bg="#222").pack(anchor='w')
+        tk.Label(test_frame, text="Take a test of the Vocabulary (Current) or choose other '_VOC.txt' file:", fg="gold", bg="#222").pack(anchor='w')
 
         btn_frame2 = tk.Frame(test_frame, bg="#222")
         btn_frame2.pack(fill=tk.X)
-        ttk.Button(btn_frame2, text="Choose File", style='Blue.TButton', command=self.load_test_file).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame2, text="Choose other '_VOC.txt' File", style='Blue.TButton', command=self.load_test_file).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame2, text="Flip Sentences", style='GoldBrown.TButton', command=self.toggle_flip_mode).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame2, text="Clear Test", style='Orange.TButton', command=self.clear_test).pack(side=tk.LEFT, padx=5)
 
@@ -658,7 +659,7 @@ class VocabularyApp:
         dict_btn_frame.pack(fill=tk.X)
         ttk.Button(dict_btn_frame, text="AI word translation", style='DarkPurple.TButton', command=self.ai_translate_word).pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(dict_btn_frame, text="Langenscheidt", style='GrayBlue.TButton', command=self.fetch_langenscheidt).pack(side=tk.LEFT, padx=5, pady=5)
-        ttk.Button(dict_btn_frame, text="Search OWN vocab.", style='DarkOlive.TButton', command=self.search_own_vocab).pack(side=tk.LEFT, padx=5, pady=5)
+        ttk.Button(dict_btn_frame, text="Search vocabulary (Current).", style='DarkOlive.TButton', command=self.search_own_vocab).pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(dict_btn_frame, text="Clear Input", style='Orange.TButton', command=self.clear_entry).pack(side=tk.LEFT, padx=5)
 
         # AI Responses to prompts
@@ -734,6 +735,8 @@ class VocabularyApp:
                 self.vocabulary_textbox.delete(1.0, tk.END)  # Clear before inserting
                 self.vocabulary_textbox.insert(tk.END, content)
                 self.vocabulary = [line.strip() for line in content.splitlines() if line.strip()]
+                self.load_current_voc += 1
+                self.load_test_file()
 
 
     # -------------- REPEAT CHANGES IN OTHER TWO TEXTBOX SAVES ----
@@ -1067,14 +1070,18 @@ class VocabularyApp:
         self.glosbe_search_entry.delete(0, tk.END)
 
     def load_test_file(self):
-        self.count_test_num = 0 # debug
-        # in the two lines below and elsewehere I replaced 'filename' with 'self.testfile'
-        filename = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        if self.load_current_voc > 0:
+            filename = self.current_voc_file
+        else:
+            self.count_test_num = 0 # debug
+            # in the two lines below and elsewehere I replaced 'filename' with 'self.testfile'
+            filename = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if filename:
             self.test_filename_label.config(text=f"File is: {filename}")
             with open(filename, 'r', encoding='utf-8-sig') as file:
                 self.vocabulary = [line.strip() for line in file.readlines() if line.strip()]
             self.display_random_word()
+            self.load_current_voc = 0
 
     def display_random_word(self):
         if not self.vocabulary:
