@@ -597,7 +597,7 @@ class VocabularyApp:
         # right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True) # Added expand=True back
 
         # Example Sentences
-        self.example_sentences_textbox = self.create_labeled_textbox(right_frame, "Find example sentences using the AI, the Glosbe dictionary, also Load and Append examples", True, height=8)
+        self.example_sentences_textbox = self.create_labeled_textbox(right_frame, "Find example sentences using the AI or the Glosbe dictionary, also Load and Append examples", True, height=8)
 
         # New Input Box for Glosbe Search
         self.glosbe_search_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 13))
@@ -631,7 +631,7 @@ class VocabularyApp:
         self.test_textbox.pack(fill=tk.X)
 
         # Answer Input
-        tk.Label(right_frame, text="Type your answer below and then press the ENTER key. Add 'to' before the English verbs.", fg="gold", bg="#222").pack(anchor='w')
+        tk.Label(right_frame, text="Type your answer below and then press the ENTER key. 'to' is added automatically before the English verbs.", fg="gold", bg="#222").pack(anchor='w')
         tk.Label(right_frame, text="For the 'Next Word' hold down SHIFT and press the ENTER key", fg="cyan", bg="#222").pack(anchor='w')
         self.answer_entry = tk.Entry(right_frame, bg="black", fg="white", insertbackground="white", font=("Helvetica", 14))
         self.answer_entry.pack(fill=tk.X)
@@ -1093,15 +1093,33 @@ class VocabularyApp:
         self.test_textbox.delete(1.0, tk.END)
         self.test_textbox.insert(tk.END, "Please translate the following:\n")
 
-        self.count_test_num = self.count_test_num + 1
+        self.count_test_num += 1
         self.count_test_num_label.config(text=f"{self.count_test_num}")
 
+        # Try to split the line regardless of space around '='
+        try:
+            parts = self.current_word.split('=')
+            german_part = parts[0].strip()
+            english_part = parts[1].strip()
+        except IndexError:
+            # In case the line is malformed
+            self.test_textbox.insert(tk.END, "⚠️ Malformed vocabulary line.\n")
+            return
+
         if self.flip_mode:
-            english_word = self.current_word.split(' = ')[1]
-            self.test_textbox.insert(tk.END, f"--> {english_word}\n")
+            self.test_textbox.insert(tk.END, f"--> {english_part}\n")
         else:
-            german_word = self.current_word.split(' = ')[0]
-            self.test_textbox.insert(tk.END, f"--> {german_word}\n")
+            self.test_textbox.insert(tk.END, f"--> {german_part}\n")
+
+        # Clear the input field before displaying the new question
+        self.answer_entry.delete(0, tk.END)
+
+        # Dynamically detect if any English translation starts with "to "
+        if not self.flip_mode:
+            english_entries = [e.strip().lower() for e in english_part.split(',')]
+            if any(entry.startswith("to ") for entry in english_entries):
+                self.answer_entry.insert(0, "to ")
+
 
     def toggle_flip_mode(self):
         self.flip_mode = not self.flip_mode
@@ -1129,30 +1147,43 @@ class VocabularyApp:
         
 
     def check_answer(self, event=None):
-        user_answer = self.answer_entry.get().strip()
+        user_input_raw = self.answer_entry.get().strip()
+        user_answer = user_input_raw.lower()
+
+        # Remove leading 'to ' if present for comparison
+        if user_answer.startswith("to "):
+            user_answer = user_answer[3:].strip()
+
+        # Determine the correct answers
         if self.flip_mode:
-            correct_answers = self.current_word.split(' = ')[0].split(', ')
-
+            correct_answers_raw = self.current_word.split(' = ')[0].split(', ')
         else:
-            correct_answers = self.current_word.split(' = ')[1].split(', ')
+            correct_answers_raw = self.current_word.split(' = ')[1].split(', ')
 
+        # Make a comparison list without 'to ' prefixes
+        correct_answers_normalized = [
+            answer.lower().strip()[3:].strip() if answer.lower().strip().startswith("to ")
+            else answer.lower().strip()
+            for answer in correct_answers_raw
+        ]
 
         self.total_questions += 1
 
-        if user_answer.lower() in [answer.lower() for answer in correct_answers]:
+        if user_answer in correct_answers_normalized:
             self.test_textbox.insert(tk.END, "*** Congratulations!!! ***\n")
-            self.test_textbox.insert(tk.END, f"*** YES, the correct answer is: {', '.join(correct_answers)} ***\n")
+            self.test_textbox.insert(tk.END, f"*** YES, the correct answer is: {', '.join(correct_answers_raw)} ***\n")
             self.correct_answers += 1
         else:
-            self.test_textbox.insert(tk.END, f"*** You wrote:  {user_answer}\n I'm sorry. The correct answer is: {', '.join(correct_answers)} ***\n")
+            self.test_textbox.insert(tk.END, f"*** You wrote:  {user_input_raw}\n I'm sorry. The correct answer is: {', '.join(correct_answers_raw)} ***\n")
 
         # Calculate score
         if self.total_questions > 0:
             self.score = round((self.correct_answers / self.total_questions) * 100)
             self.score_label.config(text=f"{self.score}%")
-            
 
         self.clear_input()
+
+
 
 class NotesEditor:
     def __init__(self, parent):
