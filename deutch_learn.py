@@ -310,9 +310,9 @@ class VocabularyApp:
 
             # Build the conditional translation prompt
             prompt = (
-                "Please translate the contents of the file into English. "
-                "However, if the contents of the file are in English or in any other language but not German, "
-                "then translate the contents into German."
+                "If the contents of the file are in German, then translate them into English. "
+                "However, if the contents of the file are in English, then translate them into German."
+                "If the contents of the file are neither in German nor in English, then translate them into English."
             )
             # Combine prompt and content
             full_prompt = f"{prompt}\n\n{content}"
@@ -806,8 +806,29 @@ class VocabularyApp:
             messagebox.showinfo("Success", f"File saved successfully at:\n{filename}")
 
     def sort_vocabulary(self):
+        # Get content from the textbox
         content = self.vocabulary_textbox.get(1.0, tk.END)
-        sorted_content = ''.join(sorted(content.splitlines(True)))
+        
+        # Process the content to remove duplicates while preserving order
+        seen = set()
+        unique_lines = []
+        
+        for line in content.splitlines():
+            # Strip whitespace and skip empty lines
+            stripped_line = line.strip()
+            if not stripped_line:
+                continue
+                
+            # Only add if we haven't seen this line before
+            if stripped_line not in seen:
+                seen.add(stripped_line)
+                unique_lines.append(stripped_line)
+        
+        # Sort the unique lines alphabetically (case-insensitive)
+        sorted_lines = sorted(unique_lines, key=lambda x: x.split('=')[0].strip().lower())
+        
+        # Join with newlines and update the textbox
+        sorted_content = '\n'.join(sorted_lines) + '\n'  # Add final newline
         self.vocabulary_textbox.delete(1.0, tk.END)
         self.vocabulary_textbox.insert(tk.END, sorted_content)
 
@@ -975,10 +996,10 @@ class VocabularyApp:
         try:
             translated_word = self.ask_chatgpt(full_prompt, model_name="gpt-4o", temperature=0.3)
             if self.divert > 0:
-                self.ai_responses_textbox.insert(tk.END, translated_word, "\n") ## debuging
+                self.ai_responses_textbox.insert(tk.END, translated_word + "\n") ## debuging
                 self.divert = 0
             else:
-                self.vocabulary_textbox.insert(tk.END, translated_word, "\n") ## debug this
+                self.vocabulary_textbox.insert(tk.END, translated_word + "\n") ## debug this
         except Exception as e:
             self.root.after(0, messagebox.showerror, "Translation Error", f"An error occurred: {e}")
 
@@ -1118,7 +1139,9 @@ class VocabularyApp:
         if not self.flip_mode:
             english_entries = [e.strip().lower() for e in english_part.split(',')]
             if any(entry.startswith("to ") for entry in english_entries):
+                self.answer_entry.delete(0, tk.END)  # Clear the entry field
                 self.answer_entry.insert(0, "to ")
+                self.answer_entry.update_idletasks
 
 
     def toggle_flip_mode(self):
