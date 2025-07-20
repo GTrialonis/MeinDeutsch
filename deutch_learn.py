@@ -547,11 +547,11 @@ class VocabularyApp:
         vocab_btn_frame.pack(pady=(0, 25)) # <--- TOP & BOTTOM PADDING for this GROUP (e.g., 25 pixels at bottom)
 
     # Buttons for Vocabulary Box - pack into vocab_btn_frame
-        ttk.Button(vocab_btn_frame, text="LOAD-VOC", style='Blue.TButton', command=self.load_vocabulary).pack(pady=3)
-        ttk.Button(vocab_btn_frame, text="AI-create VOC\nfrom _TXT file", style='DarkPurple.TButton', command=self.create_vocabulary).pack(pady=3)
-        ttk.Button(vocab_btn_frame, text="SAVE-VOC", style='Green.TButton', command=self.save_vocabulary).pack(pady=3)
-        ttk.Button(vocab_btn_frame, text="SORT", style='GoldBrown.TButton', command=self.sort_vocabulary).pack(pady=1)
-        ttk.Button(vocab_btn_frame, text="CLR-VOC", style='Red.TButton', command=self.clear_vocabulary).pack(pady=3) # Adjusted from 17, as group padding will handle overall spacing
+        ttk.Button(vocab_btn_frame, text="LOAD-VOC", style='Blue.TButton', command=self.load_vocabulary).pack(pady=2)
+        ttk.Button(vocab_btn_frame, text="AI-create VOC\nfrom _TXT file", style='DarkPurple.TButton', command=self.create_vocabulary).pack(pady=2)
+        ttk.Button(vocab_btn_frame, text="SAVE-VOC", style='Green.TButton', command=self.save_vocabulary).pack(pady=2)
+        ttk.Button(vocab_btn_frame, text="Sort & remove\nduplicates", style='GoldBrown.TButton', command=self.sort_vocabulary).pack(pady=2)
+        ttk.Button(vocab_btn_frame, text="CLR-VOC", style='Red.TButton', command=self.clear_vocabulary).pack(pady=2) # Adjusted from 17, as group padding will handle overall spacing
 
 
     # --- Group 2: Study Text Buttons ---
@@ -560,11 +560,11 @@ class VocabularyApp:
         study_btn_frame.pack(pady=(15, 15)) # <--- TOP & BOTTOM PADDING for this GROUP
 
     # Buttons for Study Text Box - pack into study_btn_frame
-        ttk.Button(study_btn_frame, text="LOAD-TXT", style='Blue.TButton', command=self.load_study_text).pack(pady=3)
-        ttk.Button(study_btn_frame, text="SAVE-TXT", style='Green.TButton', command=self.save_study_text).pack(pady=3)
-        ttk.Button(study_btn_frame, text="CLR-TXT", style='Red.TButton', command=self.clear_study_text).pack(pady=3)
-        ttk.Button(study_btn_frame, text="Translate file", style='DarkPurple.TButton', command=self.translate_study_text).pack(pady=3)
-        ttk.Button(study_btn_frame, text="Free-Hand\nTranslation", style='LightPurple.TButton', command=self.capture_text).pack(pady=3)
+        ttk.Button(study_btn_frame, text="LOAD-TXT", style='Blue.TButton', command=self.load_study_text).pack(pady=2)
+        ttk.Button(study_btn_frame, text="SAVE-TXT", style='Green.TButton', command=self.save_study_text).pack(pady=2)
+        ttk.Button(study_btn_frame, text="CLR-TXT", style='Red.TButton', command=self.clear_study_text).pack(pady=2)
+        ttk.Button(study_btn_frame, text="Translate file", style='DarkPurple.TButton', command=self.translate_study_text).pack(pady=2)
+        ttk.Button(study_btn_frame, text="Free-Hand\nTranslation", style='LightPurple.TButton', command=self.capture_text).pack(pady=2)
 
 
     # --- Group 3: Translation Buttons ---
@@ -573,10 +573,10 @@ class VocabularyApp:
         translation_btn_frame.pack(pady=(25, 0)) # <--- TOP PADDING for this GROUP
 
     # Buttons for Translation Box - pack into translation_btn_frame
-        ttk.Button(translation_btn_frame, text="LOAD-TRA", style='Blue.TButton', command=self.load_translation).pack(pady=3) # Adjusted from 20
-        ttk.Button(translation_btn_frame, text="SAVE-TRA", style='Green.TButton', command=self.save_translation).pack(pady=5)
-        ttk.Button(translation_btn_frame, text="CLR-TRA", style='Red.TButton', command=self.clear_translation).pack(pady=3) # Adjusted from 15
-        ttk.Button(translation_btn_frame, text="NOTES", style='GoldBrown.TButton', command=self.add_notes).pack(pady=3) # Adjusted from 15
+        ttk.Button(translation_btn_frame, text="LOAD-TRA", style='Blue.TButton', command=self.load_translation).pack(pady=2) # Adjusted from 20
+        ttk.Button(translation_btn_frame, text="SAVE-TRA", style='Green.TButton', command=self.save_translation).pack(pady=2)
+        ttk.Button(translation_btn_frame, text="CLR-TRA", style='Red.TButton', command=self.clear_translation).pack(pady=2) # Adjusted from 15
+        ttk.Button(translation_btn_frame, text="NOTES", style='GoldBrown.TButton', command=self.add_notes).pack(pady=2) # Adjusted from 15
         
         # --- NEW Group 4: AI Response Buttons (Middle Section) ---
         # Create a separate frame for these 4 buttons
@@ -585,10 +585,10 @@ class VocabularyApp:
         ai_responses_middle_btn_frame.pack(pady=(40, 0)) # <--- Adjust this top padding for desired space
 
         # Buttons for AI Responses - pack into ai_responses_middle_btn_frame
-        ttk.Button(ai_responses_middle_btn_frame, text="Save AI\nResponses", style='DarkPurple.TButton', command=self.save_ai_responses).pack(pady=3)
-        ttk.Button(ai_responses_middle_btn_frame, text="Append AI\nResponses", style='DarkPurple.TButton', command=self.append_ai_responses_to_file).pack(pady=1)
-        ttk.Button(ai_responses_middle_btn_frame, text="Copy AI \nResponses", style='DarkPurple.TButton', command=self.copy_ai_responses).pack(pady=1)
-        ttk.Button(ai_responses_middle_btn_frame, text="Clear AI\nResponses", style='Red.TButton', command=self.clear_ai_responses_textbox).pack(pady=1)
+        ttk.Button(ai_responses_middle_btn_frame, text="Save AI\nResponses", style='DarkPurple.TButton', command=self.save_ai_responses).pack(pady=2)
+        ttk.Button(ai_responses_middle_btn_frame, text="Append AI\nResponses", style='DarkPurple.TButton', command=self.append_ai_responses_to_file).pack(pady=2)
+        ttk.Button(ai_responses_middle_btn_frame, text="Copy AI \nResponses", style='DarkPurple.TButton', command=self.copy_ai_responses).pack(pady=2)
+        ttk.Button(ai_responses_middle_btn_frame, text="Clear AI\nResponses", style='Red.TButton', command=self.clear_ai_responses_textbox).pack(pady=2)
     
 
     def create_right_section(self):
