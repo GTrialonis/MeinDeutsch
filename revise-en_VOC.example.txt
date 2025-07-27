@@ -1,0 +1,3 @@
+staubig = dusty
+einen Film drehen = to make a film
+Flucht, die = flight, escape, outflow

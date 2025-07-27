@@ -161,6 +161,11 @@ class VocabularyApp:
                             background='#95946A',
                             foreground='black',
                             font=self.left_section_font)
+        
+        self.style.configure('Greenish.TButton', # For Revise Mistakes)
+                            background='#AABD7E',
+                            foreground='black',
+                            font=self.left_section_font)
 
 
 
@@ -643,6 +648,7 @@ class VocabularyApp:
         answer_frame.pack(fill=tk.X)
         ttk.Button(answer_frame, text="Next Word", style='Blue.TButton', command=self.next_word).pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(answer_frame, text="Clear Input", style='Orange.TButton', command=self.clear_input).pack(side=tk.LEFT, padx=5)
+        ttk.Button(answer_frame, text="Revise Mistakes", style='Greenish.TButton', command=self.load_revision_file).pack(side=tk.LEFT, padx=5)
         tk.Label(answer_frame, text="Score:", fg="white", bg="#222").pack(side=tk.LEFT, padx=5)
         self.score_label = tk.Label(answer_frame, text="0%", fg="white", bg="#222")
         self.score_label.pack(side=tk.LEFT)
@@ -1198,6 +1204,7 @@ class VocabularyApp:
             self.correct_answers += 1
         else:
             self.test_textbox.insert(tk.END, f"*** You wrote:  {user_input_raw}\n I'm sorry. The correct answer is: {', '.join(correct_answers_raw)} ***\n")
+            self.save_failed_word()
 
         # Calculate score
         if self.total_questions > 0:
@@ -1206,6 +1213,40 @@ class VocabularyApp:
 
         self.clear_input()
 
+    def save_failed_word(self):
+        """Save the missed word to a file for revision."""
+        filename = "revise-de_VOC.txt" if not self.flip_mode else "revise-en_VOC.txt"
+        missed_line = self.current_word.strip()
+
+        # Read existing lines (if any)
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                lines = f.read().splitlines()
+        except FileNotFoundError:
+            lines = []
+
+        # Append if not already present
+        if missed_line not in lines:
+            with open(filename, 'a', encoding='utf-8-sig') as f:
+                f.write(missed_line + "\n")
+
+
+    def load_revision_file(self):
+        """
+        Load revise-de_VOC.txt or revise-en_VOC.txt as the new active vocabulary for testing.
+        """
+        filename = "revise-de_VOC.txt" if not self.flip_mode else "revise-en_VOC.txt"
+
+        try:
+            with open(filename, 'r', encoding='utf-8-sig') as f:
+                self.vocabulary = [line.strip() for line in f if line.strip()]
+            self.test_textbox.delete(1.0, tk.END)
+            self.test_textbox.insert(tk.END, f"Loaded {len(self.vocabulary)} revision items from {filename}\n")
+        except FileNotFoundError:
+            self.test_textbox.delete(1.0, tk.END)
+            self.test_textbox.insert(tk.END, f"No revision file found: {filename}\n")
+
+        self.display_random_word()
 
 
 class NotesEditor:
